@@ -1,70 +1,75 @@
-# AFM DevSecOps Project Portfolio
+🔹 Project Overview
+AFM (App Feature / Microservice) is a production-style DevSecOps project designed to simulate how modern enterprises build, secure, deploy, monitor, and operate microservices on cloud-native infrastructure.
 
-## 🔹 Project Overview
-AFM (App Feature / Microservice) is a production-style banking domain application designed to demonstrate **real-world DevOps and DevSecOps practices** using AWS, Kubernetes (EKS), GitLab CI/CD, Terraform, and modern security & observability tooling.
+The project represents a banking-domain application consisting of multiple independently deployable microservices (AFMs), deployed on Amazon EKS, provisioned using Terraform, and delivered through GitLab CI/CD pipelines with integrated security and observability.
 
-This project is **not a tutorial-based setup**.  
-It is built incrementally from scratch with:
-- Infrastructure provisioning
-- CI/CD pipelines
-- Kubernetes deployments
-- Security scanning
-- Monitoring & failure simulations
+Unlike tutorial-driven demos, AFM focuses on:
+End-to-end lifecycle ownership
+Infrastructure + Application + Operations
+Real failure scenarios and recovery
+Production-aligned DevOps decision-making
 
----
+🔹 Problem Statement
+Most DevOps portfolios demonstrate isolated concepts such as:
+Docker image builds
+Simple CI pipelines
+Basic Kubernetes deployments
 
-## 🔹 Why This Project Exists
-Most DevOps projects stop at:
-- Docker build
-- Simple CI pipeline
-- Basic Kubernetes deployment
+However, real-world DevOps roles require engineers to:
+Design scalable infrastructure
+Build secure CI/CD pipelines
+Manage Kubernetes networking & ingress
+Integrate DevSecOps practices
+Implement observability
+Handle upgrades, failures, and zero-downtime changes
+The AFM project was created to bridge this gap by building a realistic, production-like system instead of a tool-specific demo.
 
-AFM goes beyond that by addressing:
-- Infrastructure as Code
-- Production-like CI/CD
-- Security as part of pipeline (DevSecOps)
-- Observability
-- Upgrade & failure handling strategies
+🔹 Solution Approach
+The AFM project is structured around separation of concerns, following enterprise DevOps patterns:
+Infrastructure Layer:
+AWS infrastructure provisioned using Terraform
+EKS cluster, networking, IAM, RDS, ECR, and ALB integration
 
----
+Application Layer:
+Multiple banking-domain microservices (Registration, Login, Auth, Frontend)
+Containerized workloads deployed on Kubernetes
+Configuration managed using ConfigMaps and Secrets
 
-## 🔹 High-Level Architecture (Preview)
-> Detailed architecture diagrams and explanations are provided in later sections.
+CI/CD Layer
+GitLab CI/CD pipelines for:
+Infrastructure provisioning
+Application build & deployment
+Security scanning
+Observability setup
+Parameterized pipelines with manual control gates
 
-- AWS Cloud (VPC, EKS, RDS, ECR, IAM)
-- GitLab CI/CD for pipelines
-- Kubernetes for orchestration
-- ALB Ingress for traffic routing
-- Prometheus, Grafana & CloudWatch for monitoring
-- SonarQube, Trivy & OWASP ZAP for security
+DevSecOps & Observability:
+Security scans integrated into CI/CD
+Metrics, logs, and dashboards for runtime visibility
+Failure simulations to validate resilience
+Each component was designed, implemented, tested, broken, and fixed, mirroring real production environments.
 
----
+🔹 Why Banking Domain?
+The banking domain was intentionally chosen because it naturally enforces:
+Security-first design
+High availability expectations
+Strict deployment discipline
+Clear separation of services
 
-## 🔹 Project Status
-**Current State:**  
-✔ Infrastructure provisioned using Terraform  
-✔ CI/CD pipelines implemented in GitLab  
-✔ Application deployed on EKS  
-✔ ALB ingress working  
-✔ DevSecOps tools integrated  
-✔ Monitoring enabled  
-✔ Failure simulations performed  
+This makes the project highly relevant for:
+Enterprise DevOps roles
+Regulated industries
+Interview discussions around reliability, security, and scale
 
----
+🔹 Key Outcomes
+Through this project, the following capabilities were demonstrated:
+End-to-end DevSecOps pipeline ownership
+Kubernetes production concepts (Ingress, probes, rollouts)
+Secure handling of infrastructure and application changes
+Monitoring-driven troubleshooting
+Upgrade and failure-handling strategies
+Portfolio-ready, interview-verifiable experience
 
-## 🔹 Repository Purpose
-This GitHub repository contains:
-- 📘 Project documentation
-- 🧠 Architecture explanations
-- 🧪 Failure scenarios & learnings
-- 🎯 Interview-ready explanations
-
-> **Note:**  
-> The actual source code and CI/CD pipelines are maintained in **GitLab**, as this project focuses on **real enterprise workflows**.
-
----
-
-## 🔹 Author
-**Swapnil**  
-DevOps / Cloud / DevSecOps Engineer  
-
+🔹 Important Note on Tooling
+The actual source code repositories and CI/CD pipelines are maintained in GitLab, reflecting real enterprise workflows.
+This GitHub repository serves as a public portfolio and documentation hub, showcasing architecture, decisions, pipelines, and operational learnings.
