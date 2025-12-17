@@ -334,31 +334,76 @@ This section provides **visual evidence** of the AFM project’s architecture, p
 ---
 
 ## 🧱 Infrastructure Pipeline Screenshots (afm-infra)
-### 3️⃣ Terraform Plan Stage
+## 🔹 AFM Infra Pipeline – Terraform & EKS Provisioning
+
+Infrastructure provisioning in the AFM project is handled **exclusively through a GitLab CI/CD pipeline**, following production-grade DevOps practices.
+
+### 🔸 Pipeline Design Highlights
+- Environment-driven execution (`dev | test | devops | prod`)
+- No local `terraform apply`
+- Manual control over destructive actions
+- Safe, auditable infrastructure changes
+
+---
+
+### 🔸 Pipeline Inputs (Environment & Controls)
+
+The pipeline is parameterized to allow **controlled execution** of each Terraform stage.
+
+`![Infra Pipeline Inputs](screenshots/afm-infra/pipeline-inputs.png)`
+
+**Inputs include:**
+- `environment` – target environment
+- `run_validate` – Terraform validation
+- `run_plan` – Infrastructure planning
+- `run_apply` – Apply changes (manual)
+- `run_destroy` – Controlled teardown
+
+This prevents accidental infrastructure changes.
+
+---
+
+### 🔸 Terraform Validate Stage
+`![Terraform Validate](screenshots/afm-infra/terraform-validate.png)`
+- Syntax and configuration validation
+- Early failure detection
+- No cloud changes
+
+---
+
+### 🔸 Terraform Plan Stage
 `![Terraform Plan](screenshots/afm-infra/terraform-plan.png)`
-**Shows:**
-- Environment-based execution
-- Planned infra changes
-- No direct apply without review
+- Shows exact resources to be created or modified
+- Environment-aware planning
+- Acts as a change preview for review
 
 ---
 
-### 4️⃣ Terraform Apply (EKS Provisioning)
+### 🔸 Manual Approval Gate
+`![Manual Approval](screenshots/afm-infra/manual-approval.png)`
+- Terraform apply requires explicit approval
+- Prevents accidental cluster creation or deletion
+- Mirrors enterprise change-management workflows
+
+---
+
+### 🔸 Terraform Apply – EKS Provisioning
+
 `![Terraform Apply](screenshots/afm-infra/terraform-apply.png)`
-**Highlights:**
-- EKS cluster creation
-- IAM roles
-- ALB controller readiness
+- Provisions:
+    - EKS single-node cluster (t3.medium)
+    - IAM roles and policies
+    - ALB controller prerequisites
+- Fully automated, pipeline-driven execution
 
 ---
 
-### 5️⃣ EKS Cluster Validation
-`![EKS Nodes](screenshots/afm-infra/eks-nodes.png)`
-**Shows:**
-- Single node (t3.medium)
-- Node ready state
-- Capacity awareness
-
+### 🔸 Why This Matters (Interview Angle)
+This pipeline demonstrates:
+- Infrastructure as Code maturity
+- Safe production workflows
+- Environment isolation
+- Audit-friendly DevOps execution
 ---
 
 ## 🚀 Application Pipeline Screenshots (afm-project)
