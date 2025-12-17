@@ -350,7 +350,7 @@ Infrastructure provisioning in the AFM project is handled **exclusively through 
 
 The pipeline is parameterized to allow **controlled execution** of each Terraform stage.
 
-`![Infra Pipeline Inputs](screenshots/afm-infra/pipeline-inputs.png)`
+`![Infra Pipeline Inputs](screenshots/afm-infra/pipeline-inputs.PNG)`
 
 **Inputs include:**
 - `environment` – target environment
