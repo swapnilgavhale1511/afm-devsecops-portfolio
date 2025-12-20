@@ -1,506 +1,251 @@
+# 🚀 AFM DevSecOps Project
+### **Portfolio by Swapnil Gavhale**
+-----------------------------------------------------------------------------
+## 🔰 Overview
+The **AFM (App Feature / Microservice) Project** is a **constraint-driven DevSecOps portfolio**, designed to demonstrate **how real DevOps platforms are designed, evolved, secured, and operated** — not just how individual tools are used.
+Unlike typical demo projects, AFM intentionally focuses on:
+- **Architecture & design decisions**
+- **Trade-offs under constraints**
+- **Failures, bottlenecks, and recovery**
+- **Cost-aware engineering**
+- **Operational realism**
 
-## 1️⃣ Problem Statement & Motivation
-Most DevOps learning projects available publicly focus on **tool demonstrations**, not **system thinking**.  
-They usually stop at:
-- Running containers
-- Simple CI pipelines
-- One-click Kubernetes deployments
-
-However, real DevOps roles require engineers to:
-- Make **design decisions**
-- Handle **constraints**
-- Face **failures**
-- Balance **cost, security, and scalability**
-- Operate systems with **limited resources**
-
-### Motivation Behind AFM
-The **AFM (App Feature / Microservice) Project** was created to:
-- Simulate **real enterprise DevOps challenges**
-- Build a system **incrementally**, not perfectly
-- Start small → evolve → migrate → optimize
-- Document **why decisions were taken**, not just _what was done_
-
-This project intentionally embraces **constraints**:
-- Limited budget
-- No domain/DNS
-- Single-node Kubernetes cluster
-- Manual + automated workflows
-- Real failures and recovery
+The platform was built **incrementally**, validated at each stage, and later migrated to Kubernetes using **production-grade DevOps practices**.
 
 ---
+## 1️⃣ Problem Statement & Motivation
+Most publicly available DevOps projects focus on **tool demonstrations**, such as:
+- Running containers
+- Simple CI pipelines
+- One-click Kubernetes setups
 
-## 2️⃣ Why Microservices Architecture?
-### Why Microservices (Instead of Monolith)?
-Microservices were chosen to demonstrate:
+However, **real DevOps roles** require engineers to:
+- Design systems under constraints
+- Make architectural decisions
+- Handle failures and incidents
+- Balance **cost, security, and scalability**    
+- Operate platforms with **limited resources**
+
+### Motivation Behind AFM
+The AFM project was created to:
+- Simulate **enterprise-grade DevOps challenges**
+- Build systems **incrementally**, not ideally
+- Follow a realistic journey:  
+    **Start small → evolve → migrate → optimize**
+- Document **why decisions were taken**, not just _what was implemented_
+
+The project intentionally embraces real-world constraints:
+- Limited budget
+- No DNS / domain
+- Single-node Kubernetes cluster
+- Real pipeline failures
+- Hybrid manual + automated workflows
+
+---------------=======================================================------------------------------------------
+
+## 2️⃣ Architecture Choice – Why Microservices?
+
+Microservices were chosen to expose **real CI/CD, security, and Kubernetes complexity**, not theoretical scalability.
+### Why Microservices Instead of a Monolith?
+Microservices enable:
 - Independent build & deploy
 - Service isolation
 - Kubernetes-native workflows
-- Real CI/CD complexity
-This mirrors how **banking and enterprise systems** are actually built.
+- Real ingress & routing scenarios
+- Non-trivial CI/CD orchestration
 
----
+This closely mirrors how **Banking and enterprise platforms** are actually built and operated.
+--------------------------------------------------------------------------------------------------
+## 3️⃣ AFM Scope – Why Only 4 Microservices?
+The project deliberately limits scope to **four AFMs**, prioritizing **depth over breadth**.
 
-## 3️⃣ Why Only 4 AFMs (Microservices)?
-The project intentionally limits itself to **four AFMs** to maintain **clarity and depth**:
-### Selected AFMs:
+### Selected AFMs
 1. **Auth Service**
 2. **Registration Service**
 3. **Login Service**
-4. **Frontend UI (separate microservice)**    
+4. **Frontend UI (separate microservice)**
 
 ### Why This Split?
-- **Auth, Login, Registration**  
-    → Represent typical identity workflows in banking systems
-- **Frontend UI as a separate microservice**  
-    → Enables:
-    - Independent UI deployment
+- **Auth / Login / Registration**
+    - Represent real identity and access workflows in banking systems
+- **Frontend UI as a separate microservice**
+    - Independent UI releases
     - Backend changes without UI rebuild
-    - Real ingress & routing scenarios
+    - Real ingress routing use cases
 
-This is **not over-engineering**, but **controlled realism**.
+This is **controlled realism**, not over-engineering.
 
 ---
-
-## 4️⃣ Why Spring Boot (Java) & HTML/CSS Frontend?
+## 4️⃣ Technology Choices – Why These Tools?
 ### Backend – Spring Boot (Java)
 Chosen because:
-- Widely used in banking & enterprise systems
-- Strong ecosystem
-- Easy observability integration
-- Realistic for interviews
+- Widely used in enterprise & banking systems
+- Mature ecosystem
+- Strong tooling support
+- Easy observability & security integration
 
-### Frontend – HTML/CSS (Simple)
-Chosen intentionally:
-- Focus stays on **DevOps**, not frontend frameworks
-- Faster iteration
-- Easy containerization
-- Clear ingress routing demonstration
+### Frontend – HTML / CSS
+Chosen intentionally to:
+- Keep focus on **DevOps**, not frontend frameworks
+- Enable fast iteration
+- Simplify containerization
+- Clearly demonstrate ingress routing
 
 ---
+## 5️⃣ AWS as the Cloud Platform
 
-## 5️⃣ Technology Stack – Why Each Tool Was Chosen
-### ☁️ AWS – Why AWS?
-AWS was selected because it reflects **real enterprise adoption**.
-**Services used and why:**
-- **EC2** – GitLab shell runner & initial hosting
+AWS was selected to reflect **real enterprise adoption patterns**.
+### AWS Services Used & Purpose
+- **EC2** – GitLab CI/CD runner & initial hosting
 - **S3** – Terraform remote state
 - **DynamoDB** – Terraform state locking
-- **ECR** – Secure container registry
+- **ECR** – Container image registry
 - **IAM** – Fine-grained access control
-- **CloudWatch** – Infrastructure-level monitoring
+- **CloudWatch** – Infrastructure & cluster observability
 - **RDS** – Persistent production-style database
+- **EKS** – Kubernetes orchestration
 
 ---
 
-### ☸️ Amazon EKS – Why Single Node (t3.medium)?
-- Budget-constrained, realistic learning setup
-- Forces **capacity planning**
-- Exposes pod scheduling issues
-- Enables real troubleshooting
+## 6️⃣ Infrastructure as Code – Terraform Design
+Infrastructure is managed **entirely via Terraform**, following enterprise IaC standards.
+### Key Terraform Practice
+- Modular design
+- Environment-aware structure
+- Remote state via S3
+- DynamoDB state locking
+- No local `terraform apply`
+- All infrastructure changes via CI/CD only
+
+This ensures:
+- Reproducibility
+- Auditability
+- Safe team workflows
+
+---
+## 7️⃣ Infrastructure Automation – GitLab CI/CD
+All infrastructure provisioning is executed **exclusively via GitLab pipelines**.
+### Terraform Lifecycle in CI/CD
+- **Validate** – Syntax & configuration checks
+- **Plan** – Change preview
+- **Apply** – Manual approval required
+- **Post-Provision** – ALB Controller installation
+- **Destroy** – Isolated, manual teardown
+
+This mirrors **real platform-engineering workflows**.
+
+---
+## 8️⃣ EKS Cluster Design – Intentional Constraints
+### Why a Single-Node EKS Cluster?
+- Instance type: **t3.medium**
+- Managed node group
+- Cost-efficient
+- Forces capacity planning
+- Exposes real scheduling challenges
+
 > Single-node EKS is **harder**, not easier — and that was intentional.
 
 ---
+## 9️⃣ Networking & Region Decisions
+### Why Default VPC?
+- Reduced networking complexity
+- Avoided over-engineering
+- Focus stayed on Kubernetes, CI/CD, and IaC
 
-## 6️⃣ GitLab for SCM & CI/CD – Why?
-### Why GitLab Instead of GitHub Actions / Jenkins?
-- Unified SCM + CI/CD
-- Enterprise-grade pipelines
-- Strong support for:
-    - Manual gates
-    - Parameterized pipelines        
-    - Multi-stage DevSecOps workflows
-
----
-
-### Why EC2 t3.medium as GitLab Shell Runner?
-- Needed Docker-in-Docker control
-- Needed full system access
-- Same host used initially for app hosting
-- Reduced cost & complexity
-
-### Challenges Faced (Will be shown later):
-- Disk cleanup
-- Docker daemon conflicts
-- Permission issues
-- Long-running pipelines
-
-(All documented in later sections)
+### Why `us-east-1`?
+- Broad AWS service availability
+- Cost-effective
+- Faster access to new AWS features
+- Enterprise-standard region
 
 ---
 
-## 7️⃣ Monorepo Strategy – Why One Repo?
-All AFM microservices were initially kept in a **single monorepo**.
-### Why Monorepo?
-- Easier dependency management
-- Shared pipeline logic
-- Centralized control    
-- Faster iteration
+## 🔟 Database Evolution – user.json → Amazon RDS
+### Initial State
+- Local `/data/user.json`
+- Simple and fast for early validation
 
-### Challenge:
-> How to build & deploy **only one service** without rebuilding all?
-
-### Solution:
-- **Hybrid GitLab pipeline**
-- Manual inputs:
-    - build = true/false
-    - deploy = true/false
-    - service selection
-- Real enterprise-style pipeline control
+### Final State
+- Amazon RDS (`db.t3.micro`)
+- Shared backend for all AFMs
+- Persistent, production-style storage
+- Monitored via CloudWatch
 
 ---
 
-## 8️⃣ Terraform – Infrastructure as Code
-### Why Terraform?
-- Cloud-agnostic IaC
-- Declarative
-- Enterprise standard
-
-### Key Practices Used:
-- Modular design
-- Environment-aware structure
-- Remote state:
-    - **S3 backend**
-    - **DynamoDB lock**
-- No local `terraform apply`
-- Infra changes only via pipeline
-
+## 1️⃣1️⃣ Container Registry – Why Amazon ECR?
+Amazon ECR was chosen over GitLab / GitHub registries due to:
+- Native AWS integration
+- IAM-based authentication
+- Seamless EKS image pulls
+- Built-in vulnerability scanning
+- Production suitability
 ---
-
-## 9️⃣ Docker – Why Still Required:
-Even with Kubernetes:
-- Docker is the **packaging standard**
-- Enables:
-    - Local testing
-    - Docker Compose workflows
-    - Consistent builds across environments
-
----
-
-## 🔟 Kubernetes – Why Not Just Docker Compose:
-### Why Kubernetes?
-Docker Compose was initially sufficient, **until**:
-- Scaling was needed
-- Rolling updates were needed
-- Health checks mattered
-- Ingress routing became complex
-- Future upgrade strategies were discussed
-
-Kubernetes enabled:
-- Declarative deployments
-- Self-healing
-- Traffic abstraction
-- Production-style operations
-
----
-
-## 1️⃣1️⃣ HTTPS Journey – Docker Compose → EKS
-### Phase 1: Docker Compose
+## 1️⃣2️⃣ HTTPS & Ingress Journey
+### Docker Compose Phase
 - NGINX
-- Self-signed certificate
+- Self-signed certificates
 - HTTPS enabled locally
-- Good for early-stage validation
 
-### Phase 2: EKS + ALB Controller
-- Switched to AWS Load Balancer Controller
-- Self-signed cert **not supported**
-- AWS ACM not used (no DNS)
+### EKS Phase
+- Migrated to **AWS Load Balancer Controller**
+- Self-signed certs not supported by ALB
+- ACM not used due to lack of DNS
 - Operated over HTTP
 
-This shows **real constraint-based decision making**.
+### Why ALB Controller?
+- Legacy EKS ingress controller deprecated (March 2026)
+- AWS-recommended, future-proof solution
+- Native AWS integration
+- IRSA support
+- Managed load balancers
+---
+## 1️⃣3️⃣ GitLab CI/CD Runner Design
+- Single EC2 self-hosted runner
+- Full Docker daemon control
+- Terraform + Docker + EKS deployments
+### Disk Expansion Learning
+- Initial disk: 8 GB
+- Expanded to 20 GB due to Docker layers, plugins, artifacts
 
+Demonstrates **real operational learning**.
 ---
 
-## 1️⃣2️⃣ Database Evolution – user.json → RDS
-### Initial State:
-- Local `/data/user.json`
-- Simple & fast
+## 1️⃣4️⃣ Secrets Management Strategy
+### Current State
+- Secrets stored in **GitLab CI/CD variables**
+- Masked & protected
+- No hard-coded credentials
 
-### Why Changed?
-- Not persistent
-- Not scalable
-- Not production-like
-
-### Final State:
-- Amazon RDS
-- Secure access via SG
-- Used by all AFMs
-- Real database connectivity challenges handled
+### Future Plan
+- AWS Secrets Manager
+- AWS KMS
+- IRSA-based access
 
 ---
+## 1️⃣5️⃣ Observability Strategy
+### Tools Used
 
-## 1️⃣3️⃣ DevSecOps – Shift Left Security
-### Why Security Early?
-Security added **inside pipelines**, not post-deployment.
-### Tools Chosen:
-- **SAST** – SonarQube
-- **SCA / Image Scan** – Trivy
-- **DAST** – OWASP ZAP
+- **CloudWatch** – Infra & control plane
+- **Prometheus** – Kubernetes & service metrics
+- **Grafana** – Visualization & debugging
 
-### Integration:
-- Multi-stage GitLab pipelines
-- Fail-on-critical issues
-- Manual gates where needed
----
-
-## 1️⃣4️⃣ Observability – Why PT, GA & CloudWatch?
-### CloudWatch
-- Node & infra metrics
-- AWS-native visibility
-
-### Prometheus (PT)
-- Kubernetes & app metrics
-- Service-level monitoring
-
-### Grafana (GA)
-- Visualization
-- Debugging
-- Interview-grade dashboards
-
-### Real Challenge Faced:
-- Single node capacity exceeded
-- 17 pods couldn’t schedule
+### Real Challenge Faced
+- Single node could not schedule 17 pods
 - Solution:
     - Reduced AFM replicas
-    - Kept observability components minimal
+    - Optimized observability footprint
+    - Restored stability
 
 ---
-
-## 1️⃣5️⃣ Why Separate Repos & Pipelines?
-### 1. **afm-project**
-- Application CI/CD
-- Build, scan, deploy
-
-### 2. **afm-infra**
-- Terraform modules
-- Environment-wise provisioning
-- IAM, EKS, ALB
-
-### 3. **afm-observability**
-- Monitoring stack
-- Metrics, dashboards
-- Verification pipelines
-This separation reflects **real platform teams**.
-
----
-
-## 1️⃣6️⃣ Journey Summary (Very Important)
-
-- Started with EC2 + Docker Compose
-- Added NGINX + HTTPS
-- Migrated to Kubernetes (EKS)
-- Faced IAM & EKS issues
-- Integrated DevSecOps
-- Hit capacity limits
-- Optimized pod strategy
-- Built observability
-- Documented everything
-
-# 📸 Architecture Diagrams & Screenshots
-This section provides **visual evidence** of the AFM project’s architecture, pipelines, deployments, security scans, and observability setup.
-
-> ⚠️ Screenshots are intentionally organized **by pipeline and phase**, not randomly.  
-> This mirrors how DevOps platforms are reviewed in real teams.
-
----
-
-## 📐 Architecture Diagrams
-### 1️⃣ High-Level System Architecture
-**Description:**
-- User → ALB → EKS → AFM Microservices → RDS
-- Clear separation of Infra, App, Security, Observability
-
-`![AFM High-Level Architecture](diagrams/afm-high-level-architecture.png)`
-
-📌 _Diagram will include_:
-- AWS VPC
-- EKS single-node cluster
-- ALB Controller
-- AFM microservices
-- RDS
-- Monitoring stack
-
----
-
-### 2️⃣ CI/CD Architecture (GitLab-Centric)
-**Description:**
-- Separate pipelines for:
-    - afm-project
-    - afm-infra
-    - afm-observability
-- Security and monitoring integrated
-
-`![AFM CI/CD Architecture](diagrams/afm-cicd-architecture.png)`
-
----
-
-## 🧱 Infrastructure Pipeline Screenshots (afm-infra)
-## 🔹 AFM Infra Pipeline – Terraform & EKS Provisioning
-
-Infrastructure provisioning in the AFM project is handled **exclusively through a GitLab CI/CD pipeline**, following production-grade DevOps practices.
-
-### 🔸 Pipeline Design Highlights
-- Environment-driven execution (`dev | test | devops | prod`)
-- No local `terraform apply`
-- Manual control over destructive actions
-- Safe, auditable infrastructure changes
-
----
-
-### 🔸 Pipeline Inputs (Environment & Controls)
-
-The pipeline is parameterized to allow **controlled execution** of each Terraform stage.
-
-`![Infra Pipeline Inputs](screenshots/afm-infra/pipeline-inputs.PNG)`
-
-**Inputs include:**
-- `environment` – target environment
-- `run_validate` – Terraform validation
-- `run_plan` – Infrastructure planning
-- `run_apply` – Apply changes (manual)
-- `run_destroy` – Controlled teardown
-
-This prevents accidental infrastructure changes.
-
----
-
-### 🔸 Terraform Validate Stage
-`![Terraform Validate](screenshots/afm-infra/terraform-validate.png)`
-- Syntax and configuration validation
-- Early failure detection
-- No cloud changes
-
----
-
-### 🔸 Terraform Plan Stage
-`![Terraform Plan](screenshots/afm-infra/terraform-plan.png)`
-- Shows exact resources to be created or modified
-- Environment-aware planning
-- Acts as a change preview for review
-
----
-
-### 🔸 Manual Approval Gate
-`![Manual Approval](screenshots/afm-infra/manual-approval.png)`
-- Terraform apply requires explicit approval
-- Prevents accidental cluster creation or deletion
-- Mirrors enterprise change-management workflows
-
----
-
-### 🔸 Terraform Apply – EKS Provisioning
-
-`![Terraform Apply](screenshots/afm-infra/terraform-apply.png)`
-- Provisions:
-    - EKS single-node cluster (t3.medium)
-    - IAM roles and policies
-    - ALB controller prerequisites
-- Fully automated, pipeline-driven execution
-
----
-
-### 🔸 Why This Matters (Interview Angle)
-This pipeline demonstrates:
-- Infrastructure as Code maturity
-- Safe production workflows
-- Environment isolation
-- Audit-friendly DevOps execution
----
-
-## 🚀 Application Pipeline Screenshots (afm-project)
-### 6️⃣ Hybrid GitLab Pipeline Inputs
-`![Hybrid Pipeline Inputs](screenshots/afm-project/hybrid-pipeline-inputs.png)`
-**Shows:**
-- Build toggle
-- Deploy toggle
-- Single-service selection
-- Monorepo challenge solution
-
----
-
-### 7️⃣ Docker Build & Push to ECR
-`![Docker Build Push](screenshots/afm-project/docker-build-push.png)`
-
----
-
-### 8️⃣ Kubernetes Deployment Rollout
-`![K8s Deployment](screenshots/afm-project/k8s-deployment.png)`
-
-**Shows:**
-- Rolling updates
-- Zero downtime behavior
-- Pod recreation
-
----
-
-### 9️⃣ ALB Ingress Routing
-`![ALB Ingress](screenshots/afm-project/alb-ingress.png)`
-**Highlights:**
-- Path-based routing
-- Service-level exposure
-- HTTP traffic via ALB
-
----
-
-## 🔐 DevSecOps Screenshots
-### 🔟 SonarQube – SAST Scan
-`![SonarQube Scan](screenshots/security/sonarqube-scan.png)`
----
-
-### 1️⃣1️⃣ Trivy – Image Vulnerability Scan
-
-`![Trivy Scan](screenshots/security/trivy-scan.png)`
-
----
-
-### 1️⃣2️⃣ OWASP ZAP – DAST Scan
-`![OWASP ZAP Scan](screenshots/security/zap-scan.png)`
-
-**Shows:**
-
-- Runtime security testing
-- Pipeline-integrated DAST
-- Shift-left security implementation
-
----
-
-## 📊 Observability Screenshots (afm-observability)
-### 1️⃣3️⃣ Prometheus Targets & ServiceMonitors
-
-`![Prometheus Targets](screenshots/observability/prometheus-targets.png)`
-
----
-
-### 1️⃣4️⃣ Grafana Dashboards
-
-`![Grafana Dashboard](screenshots/observability/grafana-dashboard.png)`
-
----
-
-### 1️⃣5️⃣ CloudWatch Metrics
-
-`![CloudWatch Metrics](screenshots/observability/cloudwatch-metrics.png)`
-
----
-
-## ⚠️ Real Issues & Constraints (Visual Proof)
-
-### 1️⃣6️⃣ Pod Scheduling Failure (Capacity Exceeded)
-
-`![Pod Scheduling Issue](screenshots/issues/pod-scheduling-failure.png)`
-
-**Explanation:**
-- Single-node cluster
-- 17 pods
-- Insufficient CPU/memory
-- Real production-style limitation
-
----
-
-### 1️⃣7️⃣ Resolution – Replica Optimization
-
-`![Replica Fix](screenshots/issues/replica-optimization.png)`
-
-**Shows:**
-- Reduced replicas
-- Successful scheduling
-- Stability restored
+## 🔚 Final Takeaway
+> The AFM platform was built **under real constraints**, evolved through failures, and refined using automation, security, and observability — exactly how production DevOps systems are built.
+
+This portfolio demonstrates:
+- DevOps mindset
+- Terraform & Kubernetes maturity
+- CI/CD discipline
+- DevSecOps integration
+- Cost-aware engineering
+- Future-ready platform thinking
+- Ready for GitOps as we have used Gitlab Ci/CD
