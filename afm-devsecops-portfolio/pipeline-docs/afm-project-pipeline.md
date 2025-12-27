@@ -240,3 +240,20 @@ It is **not a toy pipeline**, but a **controlled application delivery system**.
 ## 🔚 Final Takeaway
 
 > The AFM application pipeline treats application delivery as a **secure, repeatable, and auditable process**, aligning with real-world DevSecOps practices.
+
+### Single-Node Resource Constraint (Real Limitation Observed)
+The EKS cluster was backed by a single **t3.medium** worker node (2 vCPU, 4 GB RAM).
+Under this configuration, the cluster could reliably schedule **approximately 15–17 pods**, including:
+
+- Kubernetes system pods
+- AFM application pods
+- Observability components (Prometheus, Grafana, CloudWatch Agent)
+
+When the observability stack was initially deployed with default settings, the Kubernetes scheduler correctly prevented additional pods from being scheduled due to insufficient CPU and memory.
+
+#### Resolution
+- Reduced AFM replica counts
+- Tuned resource requests and limits
+- Optimized Prometheus and Grafana footprint
+
+This demonstrated real-world capacity planning and scheduler behavior under constrained environments.
