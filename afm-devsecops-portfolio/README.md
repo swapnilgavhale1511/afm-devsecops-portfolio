@@ -1,6 +1,6 @@
 # 🚀 AFM DevSecOps Project
 ### **Portfolio by Swapnil Gavhale**
------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 ## 🔰 Overview
 The **AFM (App Feature / Microservice) Project** is a **constraint-driven DevSecOps portfolio**, designed to demonstrate **how real DevOps platforms are designed, evolved, secured, and operated** — not just how individual tools are used.
 Unlike typical demo projects, AFM intentionally focuses on:
@@ -12,7 +12,7 @@ Unlike typical demo projects, AFM intentionally focuses on:
 
 The platform was built **incrementally**, validated at each stage, and later migrated to Kubernetes using **production-grade DevOps practices**.
 
----
+---------------------------------------------------------------------
 ## 1️⃣ Problem Statement & Motivation
 Most publicly available DevOps projects focus on **tool demonstrations**, such as:
 - Running containers
@@ -41,7 +41,7 @@ The project intentionally embraces real-world constraints:
 - Real pipeline failures
 - Hybrid manual + automated workflows
 
----------------=======================================================------------------------------------------
+------------------------------------------------------------------
 
 ## 2️⃣ Architecture Choice – Why Microservices?
 
@@ -55,7 +55,7 @@ Microservices enable:
 - Non-trivial CI/CD orchestration
 
 This closely mirrors how **Banking and enterprise platforms** are actually built and operated.
---------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------
 ## 3️⃣ AFM Scope – Why Only 4 Microservices?
 The project deliberately limits scope to **four AFMs**, prioritizing **depth over breadth**.
 
@@ -73,9 +73,7 @@ The project deliberately limits scope to **four AFMs**, prioritizing **depth ove
     - Backend changes without UI rebuild
     - Real ingress routing use cases
 
-This is **controlled realism**, not over-engineering.
-
----
+--------------------------------------------------------------
 ## 4️⃣ Technology Choices – Why These Tools?
 ### Backend – Spring Boot (Java)
 Chosen because:
@@ -91,7 +89,7 @@ Chosen intentionally to:
 - Simplify containerization
 - Clearly demonstrate ingress routing
 
----
+----------------------------------------------------------------
 ## 5️⃣ AWS as the Cloud Platform
 
 AWS was selected to reflect **real enterprise adoption patterns**.
@@ -105,7 +103,7 @@ AWS was selected to reflect **real enterprise adoption patterns**.
 - **RDS** – Persistent production-style database
 - **EKS** – Kubernetes orchestration
 
----
+---------------------------------------------------------------
 
 ## 6️⃣ Infrastructure as Code – Terraform Design
 Infrastructure is managed **entirely via Terraform**, following enterprise IaC standards.
@@ -122,7 +120,7 @@ This ensures:
 - Auditability
 - Safe team workflows
 
----
+-------------------------------------------------------------
 ## 7️⃣ Infrastructure Automation – GitLab CI/CD
 All infrastructure provisioning is executed **exclusively via GitLab pipelines**.
 ### Terraform Lifecycle in CI/CD
@@ -134,7 +132,7 @@ All infrastructure provisioning is executed **exclusively via GitLab pipelines**
 
 This mirrors **real platform-engineering workflows**.
 
----
+-------------------------------------------------------------
 ## 8️⃣ EKS Cluster Design – Intentional Constraints
 ### Why a Single-Node EKS Cluster?
 - Instance type: **t3.medium**
@@ -145,7 +143,7 @@ This mirrors **real platform-engineering workflows**.
 
 > Single-node EKS is **harder**, not easier — and that was intentional.
 
----
+------------------------------------------------------------
 ## 9️⃣ Networking & Region Decisions
 ### Why Default VPC?
 - Reduced networking complexity
@@ -158,7 +156,7 @@ This mirrors **real platform-engineering workflows**.
 - Faster access to new AWS features
 - Enterprise-standard region
 
----
+------------------------------------------------------------
 
 ## 🔟 Database Evolution – user.json → Amazon RDS
 ### Initial State
@@ -171,7 +169,7 @@ This mirrors **real platform-engineering workflows**.
 - Persistent, production-style storage
 - Monitored via CloudWatch
 
----
+-----------------------------------------------------------
 
 ## 1️⃣1️⃣ Container Registry – Why Amazon ECR?
 Amazon ECR was chosen over GitLab / GitHub registries due to:
@@ -180,7 +178,8 @@ Amazon ECR was chosen over GitLab / GitHub registries due to:
 - Seamless EKS image pulls
 - Built-in vulnerability scanning
 - Production suitability
----
+-------------------------------------------------------------
+
 ## 1️⃣2️⃣ HTTPS & Ingress Journey
 ### Docker Compose Phase
 - NGINX
@@ -199,7 +198,8 @@ Amazon ECR was chosen over GitLab / GitHub registries due to:
 - Native AWS integration
 - IRSA support
 - Managed load balancers
----
+-----------------------------------------------------------
+
 ## 1️⃣3️⃣ GitLab CI/CD Runner Design
 - Single EC2 self-hosted runner
 - Full Docker daemon control
@@ -209,7 +209,7 @@ Amazon ECR was chosen over GitLab / GitHub registries due to:
 - Expanded to 20 GB due to Docker layers, plugins, artifacts
 
 Demonstrates **real operational learning**.
----
+--------------------------------------------------------------
 
 ## 1️⃣4️⃣ Secrets Management Strategy
 ### Current State
@@ -222,7 +222,7 @@ Demonstrates **real operational learning**.
 - AWS KMS
 - IRSA-based access
 
----
+---------------------------------------------------------------
 ## 1️⃣5️⃣ Observability Strategy
 ### Tools Used
 
@@ -237,7 +237,7 @@ Demonstrates **real operational learning**.
     - Optimized observability footprint
     - Restored stability
 
----
+-------------------------------------------------------------
 ## 🔚 Final Takeaway
 > The AFM platform was built **under real constraints**, evolved through failures, and refined using automation, security, and observability — exactly how production DevOps systems are built.
 
@@ -248,4 +248,28 @@ This portfolio demonstrates:
 - DevSecOps integration
 - Cost-aware engineering
 - Future-ready platform thinking
-- Ready for GitOps as we have used Gitlab Ci/CD
+
+*** Please refer screenshots for more clarity.
+------------------------------------------------------------------------
+
+### Why DNS, HTTPS, and AWS Secrets Manager Were Not Used (Intentional)
+
+In the AFM project, **DNS and HTTPS were intentionally not implemented** due to practical constraints:
+
+- No custom domain was purchased.
+- AWS ACM requires a verified domain for certificate issuance.
+- ALB does not support self-signed certificates in production mode.
+
+As a result:
+- HTTPS termination on ALB was not possible
+- The platform was operated over HTTP for learning and validation purposes
+
+Because of this:
+- **AWS Secrets Manager was not strictly required**
+- Secrets were securely managed using **GitLab CI/CD protected and masked variables**
+- No secrets were hardcoded in source code or container images
+
+This approach reflects a **cost-aware, constraint-driven design**, while keeping a clear migration path for:
+- DNS onboarding
+- HTTPS via ACM
+- IRSA-based access to AWS Secrets Manager.
